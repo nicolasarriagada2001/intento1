@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ propiedad.titulo }}</title>
+</head>
+<body>
+    <h1>{{ propiedad.titulo }}</h1>
+    <p><strong>Descripción:</strong> {{ propiedad.descripcion }}</p>
+    <p><strong>Valor:</strong> ${{ propiedad.valor }}</p>
+    <p><strong>Estado:</strong> {{ propiedad.estado }}</p>
+    <p><strong>Tramitación:</strong> {{ propiedad.estado_tramitacion }}</p>
+    <p><strong>Visibilidad:</strong> {{ propiedad.visibilidad }}</p>
+
+    <h2>Imágenes</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+        {% for imagen in propiedad.imagenes.all %}
+            <img src="{{ imagen.imagen.url }}" alt="Imagen" style="width: 300px; height: 200px; object-fit: cover;">
+        {% empty %}
+            <p>No hay imágenes disponibles.</p>
+        {% endfor %}
+    </div>
+    {% comment %} <a href="../">← Volver a la galería</a> {% endcomment %}
+</body>
+</html>

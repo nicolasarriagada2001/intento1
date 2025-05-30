@@ -1,0 +1,77 @@
+{% load static %}
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Perfil de Usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="{% static 'css/usuario.css'%}">
+  </head>
+  <body>
+
+      <p>
+        <a href="{% url 'cliente_index' %}">← Volver a la Inicio</a>
+      </p>
+      <br />
+      <a href="{% url 'actualizar_cli' request.user.id %}">Editar Perfil</a>
+    </div>
+
+<div>
+        {% if cliente %}
+        <div class="parallax-effect" id="parallax"></div>
+
+        {% comment %} <img src="{{ cliente.img_perfil }}" alt="Foto de perfil" class="profile-image mx-auto d-block" /> {% endcomment %}
+
+        <h2>{{ cliente.user.username }}</h2>
+        <p style="text-align: center;">
+          <strong>Teléfono Contacto:</strong> {{ cliente.telefono }}
+        </p>
+      {% else %}
+        <h1 style="text-align: center;">Perfil no encontrado</h1>
+        <p style="text-align: center;">No se encontró información del cliente.</p>
+      {% endif %}
+</div>
+
+<br>
+<div class="bloque adaptabilidad_bloque">
+    <a href="#"></a>
+</div>
+
+<div class="bloque2 adaptabilidad_bloque2">
+    <a href="#"></a>
+</div>
+
+<div class="bloque3 adaptabilidad_bloque3">
+    <a href="#"></a>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+
+      const profileCard = document.getElementById('profileCard')
+      const parallax = document.getElementById('parallax')
+      
+      profileCard.addEventListener('mousemove', (e) => {
+        const rect = profileCard.getBoundingClientRect()
+        const x = e.clientX - rect.left 
+        const y = e.clientY - rect.top 
+
+        const centerX = rect.width / 2
+        const centerY = rect.height / 2
+        const moveX = (x - centerX) / centerX
+        const moveY = (y - centerY) / centerY
+      
+        parallax.style.transform = `translate(${moveX * -10}px, ${moveY * -10}px)`
+      })
+      
+      profileCard.addEventListener('mouseleave', () => {
+        parallax.style.transform = 'translate(0, 0)'
+      })
+    </script>
+
+    
+  </body>
+</html>
+

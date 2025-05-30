@@ -1,0 +1,15 @@
+
+<header>
+  <title>Documentos de Tramitacion Propietario</title>
+</header>
+
+<h2>Documentos A Integrar - Procesos de Archivo PW</h2>
+<a href="{% url 'subir' %}">Subir nuevo</a>
+<ul>
+  {% for doc in documentos %}
+    <li>
+      {{ doc.titulo }} - <a href="{{ doc.archivo.url }}">Ver</a> - 
+      <a href="{% url 'eliminarDocu' doc.id %}">Eliminar</a>
+    </li>
+  {% endfor %}
+</ul>

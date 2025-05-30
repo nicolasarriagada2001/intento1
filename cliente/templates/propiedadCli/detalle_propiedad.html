@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ propiedad.titulo }}</title>
+</head>
+<body>
+    <h1>{{ propiedad.titulo }}</h1>
+    <p><strong>Descripción:</strong> {{ propiedad.descripcion }}</p>
+    <p><strong>Valor:</strong> ${{ propiedad.valor }}</p>
+    <p><strong>Estado:</strong> {{ propiedad.get_estado_display }}</p>
+    <p><strong>Tramitación:</strong> {{ propiedad.get_estado_tramitacion_display }}</p>
+    <p><strong>Publicación:</strong> {{ propiedad.fecha_publicacion }}</p>
+
+    <h3>Imágenes:</h3>
+    {% for imagen in imagenes %}
+        <img src="{{ imagen.imagen.url }}" width="300" style="margin:10px;">
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+        {% if interes_del_usuario %}
+            <form method="post" action="{% url 'cancelar_interes' propiedad.id %}">
+                {% csrf_token %}
+                <button type="submit" style="background-color: red; color: white;">Ya no estoy interesado</button>
+            </form>
+        {% else %}
+            <form method="post" action="{% url 'registrar_interes' propiedad.id %}">
+                {% csrf_token %}
+                <button type="submit">Estoy interesado</button>
+            </form>
+        {% endif %}
+    {% else %}
+        <p><a href="{% url 'login' %}?next={{ request.path }}">Inicia sesión</a> para mostrar interés.</p>
+    {% endif %}
+
+    <p><a href="{% url 'cliente_index' %}">← Volver al inicio</a></p>
+</body>
+</html>

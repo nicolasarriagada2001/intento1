@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Lista de Items Multimedia</title>
+</head>
+<body>
+    <h1>Lista de Items Multimedia</h1>
+    <a href="{% url 'crear' %}">Crear nuevo item</a>
+    {% if items %}
+        <ul>
+        {% for item in items %}
+            <li>
+                <strong>{{ item.titulo }}</strong> - <strong>{{ item.imagen }}</strong>
+                <img src="{{ item.imagen.url }}" style="width: 300px; height: 200px; object-fit: cover;">
+                <br>
+                <a href="{% url 'actualizar' item.pk %}">Editar</a> |
+                <a href="{% url 'eliminar' item.pk %}">Eliminar</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay items.</p>
+    {% endif %}
+    <br>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+.panel {
+  position: fixed;      /* El panel se mantiene fijo en la pantalla al hacer scroll */
+  top: 10%;             /* Distancia desde la parte superior (modificable) */
+  left: 10%;            /* Distancia desde la izquierda (modificable) */
+  transform: translate(-10%, -10%); /* Corrige el punto de anclaje del panel */
+  width: 300px;         /* Ancho fijo (puedes usar % para hacerlo más responsivo) */
+  padding: 1rem;        /* Espacio interno opcional */
+  z-index: 1000;        /* Para asegurarte que esté por encima de otros elementos */
+}
+
+/* Opcional: adaptación a pantallas pequeñas */
+@media (max-width: 576px) {
+  .panel {
+    width: 90%;           /* Ancho más flexible en pantallas pequeñas */
+    left: 50%;            /* Centro horizontal */
+    top: 20%;             /* Ajusta la altura */
+    transform: translate(-50%, -20%); /* Centra con respecto a top y left */
+  }
+}

@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+  body {
+    background-color: rgb(156, 156, 156);
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 250px;
+    background-color: #b34700;
+    padding: 2rem 1rem;
+    color: white;
+    z-index: 1000;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .sidebar h4 {
+    margin-bottom: 1.5rem;
+  }
+
+  .sidebar input {
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .main-content {
+    margin-left: 270px;
+    padding: 2rem;
+  }
+
+  .container {
+    max-width: 800px;
+  }
+
+  .info-box {
+    background-color: #fffaf4;
+    border-left: 6px solid orange;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    color: #333;
+  }
+
+  .message-panel {
+    background-color: #ffffff;
+    border: 2px solid orange;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .message-panel:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .message-header {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #ff6600;
+    margin-bottom: 0.5rem;
+  }
+
+  .message-preview {
+    font-style: italic;
+    color: #6c757d;
+    font-size: 1.1rem;
+  }
+
+  .message-meta {
+    font-size: 0.95rem;
+    margin-top: 1rem;
+    color: #495057;
+  }
+
+  .message-meta a {
+    color: #ff6600;
+    text-decoration: none;
+  }
+
+  .message-meta a:hover {
+    text-decoration: underline;
+  }
+
+  .floating-box {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #ff6600;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+  }
+
+  .floating-box:hover {
+    background-color: #e05500;
+  }
+
+  #vovler_atras {
+    position: fixed;
+    bottom: 30px;
+    left: 30px; /* ✅ Este valor ubica el botón en la esquina inferior izquierda */
+    background-color: #ff6600;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  #vovler_atras:hover {
+    background-color: #e05500;
+  }
+</style>
+
+
+    <div class="container mt-4" style="color: #ff6600;">
+    <h1 class="mb-4">Gestión Seguimientos de Contacto</h1>
+
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            {{ form.as_p }}
+        </div>
+
+        {% if edit_id %}
+            <input type="hidden" name="id" value="{{ edit_id }}">
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary">
+            {% if edit_id %}Actualizar{% else %}Crear{% endif %}
+        </button>
+    </form>
+
+    <hr> 
+      <a id="vovler_atras" href="{% url 'index_corredor' %}" class="btn btn-secondary">Volver atras!!</a>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Corredor</th>
+                <th>Cliente</th>
+                <th>Titulo de la Operacion Corredor</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Tipo Campaña</th>
+                <th>Estado</th>
+                <th>Propiedad</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for seguimiento in seguimientos %}
+            <tr>
+                <td>{{ seguimiento.corredor.user.username }}</td>
+                <td>{{ seguimiento.cliente.user.username }}</td>
+                <td>{{ seguimiento.nombre }}</td>
+                <td><a class="text-decoration-none" href="" onclick="copiarTexto(this)">{{ seguimiento.telefono }}</a></td>
+                <td><a href="mailto:{{ seguimiento.correo }}" class=" text-decoration-none">{{ seguimiento.correo }}</a></td>
+                <td>{{ seguimiento.get_tipo_campaña_display }}</td> 
+                <td>{{ seguimiento.get_estado_display }}</td>
+                <td>{{ seguimiento.propiedad.titulo }}</td>
+                <td>{{ seguimiento.fecha }}</td>
+                <td>
+                    <a href="?edit={{ seguimiento.id }}" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="?delete={{ seguimiento.id }}" class="btn btn-sm btn-danger"
+                       onclick="return confirm('¿Seguro que quieres eliminar?');">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="10" class="text-center">No hay seguimientos registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</div>
+
+
+<script>
+  function toggleModo() {
+    const body = document.body;
+    const icono = document.getElementById("icono-modo");
+    const btn = document.getElementById("modo-btn");
+
+    if (body.classList.contains("bg-light")) {
+      body.classList.replace("bg-light", "bg-dark");
+      body.classList.add("text-white");
+      icono.classList.replace("bi-moon-stars", "bi-sun");
+      btn.classList.replace("btn-dark", "btn-light");
+    } else {
+      body.classList.replace("bg-dark", "bg-light");
+      body.classList.remove("text-white");
+      icono.classList.replace("bi-sun", "bi-moon-stars");
+      btn.classList.replace("btn-light", "btn-dark");
+    }
+  }
+
+
+   
+
+  const listaMensajes = document.getElementById("lista-mensajes");
+  listaMensajes.innerHTML = "";
+
+  if (mensajes.length === 0) {
+    listaMensajes.innerHTML = '<li class="list-group-item">No hay mensajes recientes.</li>';
+  } else {
+    mensajes.forEach(({cliente, correo, telefono, mensaje}) => {
+      const li = document.createElement("li");
+      li.className = "list-group-item";
+      li.innerHTML = `
+        <strong>${cliente}</strong><br />
+        <em>${mensaje}</em>
+        <div class="detalle-contacto">
+          Correo: <a href="mailto:${correo}">${correo}</a> | Tel: <a href="tel:${telefono}">${telefono}</a>
+        </div>
+      `;
+      listaMensajes.appendChild(li);
+    });
+  }
+
+
+
+  // Actualizar total Clientes
+  document.getElementById('total-clientes').textContent = totalClientes;
+
+  // Actualizar total propiedades por Tipo
+  const listaPropiedades = document.getElementById('total-propiedades-tipo');
+  for (const [tipo, cantidad] of Object.entries(propiedadesPorTipo)) {
+    const li = [...listaPropiedades.children].find(li => li.textContent.includes(tipo));
+    if (li) {
+      li.querySelector('span').textContent = cantidad;
+    }
+  }
+
+  function copiarTexto(elemento) {
+    const texto = elemento.textContent;
+    navigator.clipboard.writeText(texto)
+      .then(() => alert("Teléfono copiado: " + texto))
+      .catch(err => console.error("Error al copiar: ", err));
+  }
+</script>
+
+
+  <script>
+    function filtrarMensajes() {
+      const input = document.getElementById('busqueda').value.toLowerCase();
+      const panels = document.querySelectorAll('.message-panel');
+      panels.forEach(panel => {
+        const nombre = panel.getAttribute('data-nombre').toLowerCase();
+        if (nombre.includes(input)) {
+          panel.style.display = 'block';
+        } else {
+          panel.style.display = 'none';
+        }
+      });
+    }
+
+  function copiarTexto(elemento) {
+  const texto = elemento.innerText;
+
+
+  const temp = document.createElement("textarea");
+  temp.value = texto;
+  document.body.appendChild(temp);
+  temp.select();
+  document.execCommand("copy");
+  document.body.removeChild(temp);
+
+  alert("Texto copiado: " + texto);
+}
+</script>
+
+{% endblock %}

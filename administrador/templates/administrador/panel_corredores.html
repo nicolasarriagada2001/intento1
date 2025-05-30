@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Panel de Corredores</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: rgb(156, 156, 156);
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: #b34700;
+            padding: 2rem 1rem;
+            color: white;
+            z-index: 1000;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+        }
+        .sidebar h4 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+        .sidebar input {
+            width: 100%;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        .main-content {
+            margin-left: 270px;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 900px;
+            background-color: #fffaf4;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            color: #b34700;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        form {
+            border: 2px solid #b34700;
+            border-radius: 12px;
+            padding: 2rem;
+            background: white;
+            box-shadow: 0 2px 10px rgba(179, 71, 0, 0.3);
+            margin-bottom: 3rem;
+        }
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 0.8rem;
+        }
+        .deleted {
+            text-decoration: line-through;
+            color: gray;
+        }
+        table {
+            border-collapse: separate !important;
+            border-spacing: 0 0.75rem;
+        }
+        thead tr {
+            background-color: #b34700;
+            color: white;
+            border-radius: 12px;
+        }
+        tbody tr {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+        tbody tr:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(179, 71, 0, 0.3);
+        }
+        .table-warning {
+            background-color: #fff3cd !important;
+        }
+        .badge {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .d-flex.gap-2 > form {
+            margin: 0;
+        }
+
+        #volver_atras {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #ff6600;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+            font-size: 1rem;
+            border: none;
+            z-index: 1100;
+        }
+        #volver_atras:hover {
+            background-color: #e05500;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 1rem;
+                box-shadow: none;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            .sidebar input {
+                font-size: 1rem;
+            }
+            form {
+                padding: 1rem;
+            }
+            .container {
+                max-width: 100%;
+                padding: 1rem;
+            }
+            table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            thead, tbody, tr, th, td {
+                white-space: nowrap;
+            }
+            #volver_atras {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h4>Menú</h4>
+    <input type="text" id="busqueda" placeholder="Buscar corredores..." onkeyup="filtrarMensajes()" />
+</div>
+
+<div class="main-content">
+    <div class="container">
+        <h1>Registrar Nuevo Corredor</h1>
+        
+        <!-- Formulario de registro de corredores -->
+        <form method="post" enctype="multipart/form-data" class="mb-5">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Registrar Corredor</button>
+        </form>
+
+        <h2>Lista de Corredores</h2>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Activo</th>
+                <th>Fecha de creación</th>
+                <th>Creado por</th>
+                <th>Acciones</th>
+                <th>Eliminado por</th>
+            </tr>
+            </thead>
+            <tbody id="lista-corredores">
+            {% for c in corredores %}
+            <tr class="{% if not c.activo %}table-warning{% endif %} message-panel" data-nombre="{{ c.user.username }}">
+                <td class="{% if c.eliminado_por %}deleted{% endif %}">{{ c.user.username }}</td>
+                <td><a href="mailto:{{ c.email }}">{{ c.email }}</a></td>
+                <td>
+                    {% if c.activo %}
+                        <span class="badge bg-success">Activo</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Bloqueado</span>
+                    {% endif %}
+                </td>
+                <td>{{ c.fecha_creacion }}</td>
+                <td>{{ c.created_by.usuario.username|default:"—" }}</td>
+                <td class="d-flex gap-2">
+                    <form method="post" action="{% url 'bloquear_corredor' c.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-warning btn-small">
+                            {% if c.activo %}Bloquear{% else %}Desbloquear{% endif %}
+                        </button>
+                    </form>
+
+                    {% if not c.eliminado_por %}
+                    <form method="post" action="{% url 'eliminar_corredor' c.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-small">Eliminar</button>
+                    </form>
+                    {% else %}
+                        <span class="text-muted">Eliminado</span>
+                    {% endif %}
+                </td>
+                <td>{{ c.eliminado_por.usuario.username|default:"—" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7" class="text-center">No hay corredores registrados</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Botón flotante Volver atrás -->
+<button id="volver_atras" onclick="history.back()">← Volver atrás</button>
+
+<script>
+function filtrarMensajes() {
+    const input = document.getElementById('busqueda').value.toLowerCase();
+    const panels = document.querySelectorAll('.message-panel');
+    panels.forEach(panel => {
+        const nombre = panel.getAttribute('data-nombre').toLowerCase();
+        panel.style.display = nombre.includes(input) ? 'table-row' : 'none';
+    });
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

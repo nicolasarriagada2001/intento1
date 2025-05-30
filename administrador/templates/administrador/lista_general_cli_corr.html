@@ -1,0 +1,28 @@
+<h2>Listado General de Propiedades y Asignaciones</h2>
+<br>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Dueño</th>
+            <th>Corredor</th>
+            <th>Cliente</th>
+            <th>Administrador</th>
+            <th>Estado</th>
+            <th>Activo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in lista_relaciones %}
+        <tr>
+            <td>{{ p.titulo }}</td>
+            <td>{{ p.dueno }}</td>
+            <td>{{ p.corredor }}</td>
+            <td>{{ p.cliente }}</td>
+            <td>{{ p.administrador }}</td>
+            <td>{{ p.estado }}</td>
+            <td>{{ p.activo|yesno:"Sí,No" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

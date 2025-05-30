@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  body {
+    background-color: #3e1f0f;
+    color: #fff8dc;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .card {
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 0 15px 3px #000000aa;
+    max-width: 480px;
+    margin: 40px auto;
+  }
+  h3 {
+    color: #000;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+  label {
+    display: block;
+    margin-top: 15px;
+    color: #000;
+    font-weight: 600;
+  }
+  input, select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 2px solid #000;
+    font-size: 1rem;
+    outline: none;
+    box-sizing: border-box;
+  }
+  input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+  }
+  button {
+    margin-top: 25px;
+    width: 100%;
+    background-color: #b45309;
+    color: black;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 12px;
+    border: 2px solid #000;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #f59e0b;
+  }
+  .errorlist {
+    color: #ff0000;
+    margin-top: 5px;
+    font-weight: 700;
+  }
+  .form-check {
+    display: flex;
+    align-items: center;
+  }
+  .links {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .links a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: underline;
+    margin: 0 10px;
+  }
+</style>
+
+<div class="card">
+    <h3>Registro Dueño de Propiedad</h3>
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+        {{ form.username }}
+        {{ form.username.errors }}
+
+        <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+        {{ form.email }}
+        {{ form.email.errors }}
+
+        <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+        {{ form.password }}
+        {{ form.password.errors }}
+
+        <label for="{{ form.confirm_password.id_for_label }}">{{ form.confirm_password.label }}</label>
+        {{ form.confirm_password }}
+        {{ form.confirm_password.errors }}
+
+        <label for="{{ form.nombre_completo.id_for_label }}">{{ form.nombre_completo.label }}</label>
+        {{ form.nombre_completo }}
+        {{ form.nombre_completo.errors }}
+
+        <label for="{{ form.telefono.id_for_label }}">{{ form.telefono.label }}</label>
+        {{ form.telefono }}
+        {{ form.telefono.errors }}
+
+        <label for="{{ form.tipo_dueno.id_for_label }}">{{ form.tipo_dueno.label }}</label>
+        {{ form.tipo_dueno }}
+        {{ form.tipo_dueno.errors }}
+
+        <label for="{{ form.intencion.id_for_label }}">{{ form.intencion.label }}</label>
+        {{ form.intencion }}
+        {{ form.intencion.errors }}
+
+        <label for="{{ form.rut_for_label }}">{{ form.rut.label }}</label>
+        {{ form.rut }}
+        {{ form.rut.errors }}
+
+        {% comment %} <label for="{{ form.documento.id_for_label }}">{{ form.documento.label }}</label>
+        {{ form.documento }}
+        {{ form.documento.errors }} {% endcomment %}
+
+        <div class="form-check">
+            {{ form.acepto_terminos }}
+            <label for="{{ form.acepto_terminos.id_for_label }}">{{ form.acepto_terminos.label }}</label>
+        </div>
+        {{ form.acepto_terminos.errors }}
+
+        <button type="submit">Registrarme</button>
+
+    </form>
+
+    <div class="links">
+        <a href="/login/registro/cliente/">¿No eres dueño? Regístrate como cliente</a> |
+        <a href="/">Volver al inicio</a>
+    </div>
+</div>
+
+{% endblock %}
+

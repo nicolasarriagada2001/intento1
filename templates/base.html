@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PropiedadesWeb</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="shortcut icon" href="{% static 'img/icono-base.png' %}" type="image/x-icon">
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+          <script src="{% static 'js/jsBase.js' %}"></script>
+</head>
+
+<!--Barra Negra - no puse los datos de valor de moneda aqui por el momento -->
+<body class="bg-light">
+<div class="mini-bar">
+    <div>
+        <br>
+    </div>
+</div>
+
+
+<br>
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<nav style="margin-left: 0px !important;  border-color: rgba(222, 125, 46, 0) !important; background: linear-gradient(to right, rgba(222, 125, 46, 0.79), rgba(201, 134, 72, 0.36)) !important;" class="navbar navbar-light bg-white border-bottom px-4 py-2 d-flex justify-content-between align-items-center w-100">
+
+
+  <div id="div-Banner">
+    <br>
+    <a class="navbar-brand fw-bold" href="/" style="margin-left: 25px;">
+      <img class="navbar-img" src="{% static 'img/1-PNG.png' %}" alt="PropiedadesWeb" />
+      <br>
+    </a>
+  </div>
+
+
+</nav>
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<div class="container-fluid">
+  <div class="row">
+   <div style="min-height: 80vw !important; border-color: rgba(222, 125, 46, 0) !important; background: linear-gradient(to right, rgba(222, 125, 46, 0.79), rgba(201, 134, 72, 0.77)) !important" class="col-md-3 col-lg-2 collapse show bg-white border-end p-3 min-vh-100" id="sidebar">
+
+      <ul class="nav nav-pills flex-column mb-auto ">
+        <li class="nav-item">
+           <br>
+          <a href="{% url 'login' %}" class="text-center h-100 p-3 text-white bg-dark rounded-3 nav-link text-dark">
+            <i class="bi bi-speedometer2 me-2"></i> Login
+          </a>
+        </li>
+        <li class="nav-item">
+           <br>
+          <a href="{% url 'formulario_contacto' %}" class="text-center h-100 p-3 text-white bg-dark rounded-3 nav-link text-dark">
+            <i class="bi bi-plus-square me-2"></i> Contactanos!!
+          </a>
+        </li>
+        <li class="nav-item">
+           <br>
+          <a href="{% url 'registro_cliente' %}" class="text-center h-100 p-3 text-white bg-dark rounded-3 nav-link text-dark">
+            <i class="bi bi-chat-left-text me-2"></i>Registrate Aqui!
+          </a>
+        </li>
+        <li class="nav-item">
+           <br>
+          <a href="{% url 'registro_dueno' %}" class="text-center h-100 p-3 text-white bg-dark rounded-3 nav-link text-dark">
+            <i class="bi bi-people me-2"></i>Registro para Propietarios
+          </a>
+        </li>
+        <li class="nav-item">
+           <br>
+                    
+          </a>
+        </li>
+      </ul>
+    </div>
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+ 
+
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+    <main class="col-md-9 col-lg-10">
+{% block content %}
+
+{% endblock %}
+    </main>
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+</div>
+    </div>
+
+<footer style="padding-bottom: 5rem !important; margin-left: -23px;
+  margin-right: -23px; color: rgb(47, 47, 47) !important; border-color: rgba(222, 125, 46, 0) !important; background: linear-gradient(to right, rgba(222, 125, 46, 0.79), rgba(201, 134, 72, 0.36)) !important;" class="text-center text-muted small py-3">
+<h5>© 2025 PropiedadesWeb.cl - v1.0</h5>
+</footer>
+
+
+<!-- Botón WhatsApp -->
+<a href="https://wa.me/56911111111" class="whatsapp-float" target="_blank" title="Hola Un Gusto!!, Bienvenidos a WSP PropiedadesWeb">
+  <img src="{% static 'img/WhatsApp.svg' %}" alt="WhatsApp" />
+</a>
+
+<!-- Botón modo oscuro -->
+<button class="btn btn-dark modo-btn" onclick="toggleModo()" id="modo-btn" aria-label="Cambiar modo">
+  <i class="bi bi-moon-stars" id="icono-modo"></i>
+</button>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+</body>
+</html>
+

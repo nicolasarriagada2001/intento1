@@ -1,0 +1,7 @@
+<form method="POST" enctype="multipart/form-data" novalidate>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="file" name="images" id="id_images" multiple required accept="image/*" />
+  <button type="submit">Crear Propiedad</button>
+  <a href="{% url 'index_administrador' %}">Volver al perfil</a>
+</form>

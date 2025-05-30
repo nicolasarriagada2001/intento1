@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <title>Crear Propiedad</title>
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body class="container mt-5">
+
+  <h2>Registrar nueva propiedad</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ propiedad_form.as_p }}
+    {{ caracteristica_form.as_p }}
+
+    <h4>Documentos</h4>
+    {{ documento_formset.management_form }}
+    {% for form in documento_formset %}
+        <div class="formset-documento border p-2 mb-2 rounded">
+            {{ form.as_p }}
+        </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary">Guardar Propiedad</button>
+</form>
+
+
+</body>
+</html>
